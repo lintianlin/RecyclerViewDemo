@@ -17,13 +17,14 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView mRecyclerView;
     private List<MainBean> mList = new ArrayList<>();
     private MainAdapter mainAdapter;
+    private CheckBox checkBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        CheckBox checkBox = (CheckBox) findViewById(R.id.cb_sellect_all);
+        checkBox = (CheckBox) findViewById(R.id.cb_sellect_all);
         mainAdapter = new MainAdapter(this, R.layout.item_main, mList);
         mRecyclerView.setAdapter(mainAdapter);
         for (int i = 0; i <= 50; i++) {
@@ -32,12 +33,20 @@ public class MainActivity extends AppCompatActivity {
         mainAdapter.notifyDataSetChanged();
 
 
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                mainAdapter.selectAll(b);
+//            }
+//        });
+        checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                mainAdapter.selectAll(b);
+            public void onClick(View v) {
+                mainAdapter.selectAll(checkBox.isChecked());
             }
         });
+
+
 
         findViewById(R.id.bt_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,5 +61,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), ids.toString(), Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+
+    public void setNoSelectAll(){
+        checkBox.setChecked(false);
     }
 }

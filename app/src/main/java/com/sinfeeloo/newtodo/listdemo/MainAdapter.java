@@ -27,6 +27,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
     Context mContext;
     int mView;
     private SparseBooleanArray mCheckStates = new SparseBooleanArray();
+    private boolean selectAll;
 
     public MainAdapter(Context context, int layout, List<MainBean> datas) {
         this.mList = datas;
@@ -52,6 +53,9 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
                 int pos = (int) buttonView.getTag();
                 mCheckStates.put(pos, isChecked);
                 mList.get(pos).setChecked(mCheckStates.get(pos, false));
+                if(!isChecked&&selectAll){
+                    ((MainActivity)mContext).setNoSelectAll();
+                }
             }
         });
         holder.cb.setChecked(mCheckStates.get(position, false));
@@ -83,6 +87,7 @@ public class MainAdapter extends RecyclerView.Adapter<MainAdapter.MyViewHolder> 
 
 
     public void selectAll(boolean b) {
+        selectAll = b;
         for (int i = 0; i < mList.size(); i++) {
             mCheckStates.put(i, b);
             mList.get(i).setChecked(b);
